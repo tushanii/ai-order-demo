@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AI 订单对话助手</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand-block">
+        <div class="brand-kicker">Interview Demo</div>
+        <h1>AI 订单对话助手</h1>
+        <p>把单轮分析升级成可连续追问的订单助手，适合演示 AI 在业务场景里的落地方式。</p>
+      </div>
+
+      <div class="panel">
+        <h2>快捷提问</h2>
+        <div class="prompt-list">
+          <button class="prompt-chip" data-prompt="帮我查一下陈晓峰名下有哪些订单，优先看异常和待发货。">陈晓峰名下订单</button>
+          <button class="prompt-chip" data-prompt="有哪些订单今天需要重点跟进？">今日重点跟进</button>
+          <button class="prompt-chip" data-prompt="苏州智源科技这笔订单为什么异常，给我一个客户沟通建议。">异常原因与建议</button>
+          <button class="prompt-chip" data-prompt="统计一下当前待付款和待发货订单的金额。">状态金额统计</button>
+          <button class="prompt-chip" data-prompt="帮我生成一段发给客户的回复话术，语气专业一点。">生成客户话术</button>
+        </div>
+      </div>
+
+      <div class="panel panel-muted">
+        <h2>连接状态</h2>
+        <p id="apiStatus">检测中...</p>
+        <p class="small">配置了 DeepSeek Key 后，会用真实模型回答；未配置时走本地兜底逻辑。</p>
+      </div>
+
+      <div class="panel panel-muted">
+        <h2>演示建议</h2>
+        <p class="small">先问一个总览问题，再连续追问优先级、风险和客户话术，更能体现项目的 AI 对话能力。</p>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <section class="topbar">
+        <div>
+          <div class="eyebrow">业务场景</div>
+          <h2>订单跟进对话台</h2>
+        </div>
+        <div class="topbar-actions">
+          <button id="newChatBtn" class="ghost-button" type="button">新对话</button>
+          <button id="reloadBtn" class="ghost-button" type="button">刷新状态</button>
+        </div>
+      </section>
+
+      <section class="content-grid">
+        <div class="card chat-card">
+          <div class="card-head">
+            <div>
+              <div class="eyebrow">AI 对话</div>
+              <h3>聊天记录</h3>
+            </div>
+            <span id="resultMode" class="tag">待开始</span>
+          </div>
+
+          <div id="chatList" class="chat-list"></div>
+
+          <div class="query-panel chat-input-panel">
+            <label class="input-label" for="questionInput">继续提问</label>
+            <div class="query-row">
+              <textarea id="questionInput" placeholder="例如：那优先处理哪两笔？再帮我写一段发给客户的话。"></textarea>
+              <button id="askBtn" class="primary-button" type="button">发送</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-head">
+            <div>
+              <div class="eyebrow">当前命中</div>
+              <h3>订单结果</h3>
+            </div>
+            <span id="resultCount" class="tag">0 条</span>
+          </div>
+          <div id="summaryBox" class="summary-box">
+            <div>命中订单：0</div>
+            <div>订单金额：0 元</div>
+            <div>高优先级：0</div>
+          </div>
+          <div id="orderList" class="order-list"></div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <template id="orderItemTemplate">
+    <article class="order-item">
+      <div class="order-item-head">
+        <div>
+          <h4 class="order-id"></h4>
+          <p class="order-customer"></p>
+        </div>
+        <span class="status-badge"></span>
+      </div>
+      <div class="order-meta"></div>
+      <p class="order-remark"></p>
+      <details class="order-detail">
+        <summary>查看时间线</summary>
+        <ul class="timeline"></ul>
+      </details>
+    </article>
+  </template>
+
+  <template id="chatMessageTemplate">
+    <article class="chat-message">
+      <div class="chat-role"></div>
+      <div class="chat-bubble"></div>
+    </article>
+  </template>
+
+  <script src="/app.js"></script>
+</body>
+</html>
