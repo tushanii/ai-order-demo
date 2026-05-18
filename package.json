@@ -1,0 +1,10 @@
+{
+  "name": "ai-order-demo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "AI order query demo for interview showcase",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  }
+}
